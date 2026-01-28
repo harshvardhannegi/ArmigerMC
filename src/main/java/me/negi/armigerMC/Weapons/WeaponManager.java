@@ -3,6 +3,8 @@ package me.negi.armigerMC.Weapons;
 import me.negi.armigerMC.Mana.ManaManager;
 import me.negi.armigerMC.Weapons.Weapons.DarkLance;
 import me.negi.armigerMC.Weapons.Weapons.MortalSpear;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
@@ -31,11 +33,15 @@ public class WeaponManager {
                 if(mm.getMana(player.getUniqueId()) < W.getMANACost())
                 {
                     player.getWorld().spawnParticle(
-                            Particle.ASH,
-                            player.getLocation().add(0, 1, 0),
-                            3
+                            Particle.DUST,
+                            player.getLocation().add(0, 2, 0),
+                            50
                     );
-
+                    player.getWorld().spawnParticle(
+                            Particle.DUST,
+                            player.getLocation().add(1, 2, 0),
+                            50
+                    );
                 }
                 else
                 {

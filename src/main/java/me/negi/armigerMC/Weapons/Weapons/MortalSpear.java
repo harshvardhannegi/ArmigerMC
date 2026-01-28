@@ -50,6 +50,6 @@ public class MortalSpear implements Weapon {
 
     @Override
     public int getMANACost() {
-        return 21;
+        return 5;
     }
 }

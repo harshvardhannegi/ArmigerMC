@@ -54,3 +54,8 @@ processResources {
         expand props
     }
 }
+
+// for Faster testing
+jar {
+    destinationDirectory = file('/home/negi/.cache/JetBrains/IdeaIC2025.3/com.nickawrist.MinecraftDevServer/ArmigerMC/plugins/')
+}

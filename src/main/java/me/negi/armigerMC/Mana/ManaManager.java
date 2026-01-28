@@ -2,6 +2,9 @@ package me.negi.armigerMC.Mana;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -35,17 +38,19 @@ public class ManaManager {
     }
 
     public void StartManaCycle(Plugin plugin) {
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
-            ManaMap.forEach((uuid, mana) -> {
-                if (mana.getMANA() < mana.getMAX_MANA()) {
-                    mana.setMANA(mana.getMANA() + 1);
-                }
+        Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                Mana mana = ManaMap.get(player.getUniqueId());
+                if (mana == null) continue;
 
-                Player player = Bukkit.getPlayer(uuid);
-                if (player != null) {
-                    player.sendMessage("Your current Mana is: " + mana.getMANA());
+                int current = mana.getMANA();
+                int max = mana.getMAX_MANA();
+
+                if (current < max) {
+                    mana.setMANA(Math.min(current + mana.getMANA_STRENGTH(), max));
                 }
-            });
+                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacy("█".repeat(current), ChatColor.LIGHT_PURPLE));
+            }
         }, 0L, 20L);
     }
 
