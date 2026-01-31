@@ -2,21 +2,20 @@ package me.negi.armigerMC.Mana;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import me.negi.armigerMC.util.RepeatingTask;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class ManaManager {
 
@@ -50,18 +49,24 @@ public class ManaManager {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 Mana mana = ManaMap.get(player.getUniqueId());
                 if (mana == null) continue;
-
                 int current = mana.getMANA();
                 int max = mana.getMAX_MANA();
-
-                if (current < max) {
+                if (mana.getMANA() < max) {
                     mana.setMANA(Math.min(current + mana.getMANA_STRENGTH(), max));
                 }
-                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacy(getMana(max, current), ChatColor.LIGHT_PURPLE));
             }
         }, 0L, 20L);
-    }
 
+        Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                Mana mana = ManaMap.get(player.getUniqueId());
+                if (mana == null) continue;
+                int current = mana.getMANA();
+                int max = mana.getMAX_MANA();
+                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacy(getMana(max, current), ChatColor.LIGHT_PURPLE));
+            }
+        }, 0L, 1L);
+    }
 
     public int getMana(UUID uuid)
     {

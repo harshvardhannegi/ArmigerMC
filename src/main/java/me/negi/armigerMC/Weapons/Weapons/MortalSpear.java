@@ -29,8 +29,8 @@ public class MortalSpear implements Weapon {
 
     @Override
     public void onExecution(Player player, Entity entity) {
-        PotionEffect effect = new PotionEffect(PotionEffectType.DARKNESS, 10,1);
-        PotionEffect effect1 = new PotionEffect(PotionEffectType.POISON, 10,1);
+        PotionEffect effect = new PotionEffect(PotionEffectType.DARKNESS, 200,1);
+        PotionEffect effect1 = new PotionEffect(PotionEffectType.POISON, 200,1);
         effect.apply((LivingEntity) entity);
         effect1.apply((LivingEntity) entity);
     }

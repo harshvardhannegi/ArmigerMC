@@ -20,8 +20,8 @@ public class WeaponsListener implements Listener {
     @EventHandler
     public void onEntityDamage(EntityDamageByEntityEvent event)
     {
-        if (event.getDamager() instanceof Player){
-            wm.executeMeleeWeapon(Objects.requireNonNull(((Player) event.getDamager()).getPlayer()), event.getEntity());
+        if (event.getDamager() instanceof Player && ((Player) event.getDamager()).getPlayer() !=null){
+            wm.executeMeleeWeapon((((Player) event.getDamager()).getPlayer()), event.getEntity());
         }
     }
 
