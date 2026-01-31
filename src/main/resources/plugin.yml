@@ -2,7 +2,7 @@ name: ArmigerMC
 version: '1.0-SNAPSHOT'
 main: me.negi.armigerMC.ArmigerMC
 api-version: '1.21'
-prefix: SimpleMana
+prefix: ArmigerMC
 authors: [ doflamingonegi ]
 description: A immersive magic plugin.
 commands:

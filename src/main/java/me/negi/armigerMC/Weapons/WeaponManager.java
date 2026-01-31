@@ -23,7 +23,7 @@ public class WeaponManager {
     ManaManager mm;
     NamespacedKey key;
     private Map<String, Weapon> MELEEWEAPONLIST;
-    private Map<String, Weapon> MAGICWEAPONLIST;
+    private Map<String, Weapon> PROJECTILEWEAPONLIST;
 
     public void executeMeleeWeapon(Player player, Entity entity)
     {
@@ -52,6 +52,12 @@ public class WeaponManager {
         });
     }
 
+    public void executeProjectileWeapon(Player player, Entity entity)
+    {
+        String WEAPON_NAME = Objects.requireNonNull(player.getInventory().getItemInMainHand().getItemMeta()).getPersistentDataContainer().get(key, PersistentDataType.STRING);
+         PROJECTILEWEAPONLIST.get(WEAPON_NAME);
+    }
+
     public void setManaManager(ManaManager manager)
     {
         mm = manager;
@@ -60,8 +66,7 @@ public class WeaponManager {
     public void setupNameSpaceKey(Plugin plugin)
     {
         key = new NamespacedKey(plugin, "armigermc");
-        MELEEWEAPONLIST = Map.of("mortalspear", new MortalSpear(key));
-        MAGICWEAPONLIST = Map.of("darklance", new DarkLance(key));
+        MELEEWEAPONLIST = Map.of("mortalspear", new MortalSpear(key), "darklance", new DarkLance(key));
     }
 
 }
