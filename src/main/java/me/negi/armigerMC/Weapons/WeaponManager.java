@@ -1,14 +1,18 @@
 package me.negi.armigerMC.Weapons;
 
 import me.negi.armigerMC.Mana.ManaManager;
+import me.negi.armigerMC.Weapons.Weapons.BowOfRaven;
 import me.negi.armigerMC.Weapons.Weapons.DarkLance;
 import me.negi.armigerMC.Weapons.Weapons.MortalSpear;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
+import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
@@ -23,7 +27,7 @@ public class WeaponManager {
     ManaManager mm;
     NamespacedKey key;
     private Map<String, Weapon> MELEEWEAPONLIST;
-    private Map<String, Weapon> PROJECTILEWEAPONLIST;
+    private Map<String, WeaponBow> PROJECTILEWEAPONLIST;
 
     public void executeMeleeWeapon(Player player, Entity entity)
     {
@@ -52,10 +56,34 @@ public class WeaponManager {
         });
     }
 
-    public void executeProjectileWeapon(Player player, Entity entity)
+    public void executeProjectileWeapon(EntityShootBowEvent event)
     {
-        String WEAPON_NAME = Objects.requireNonNull(player.getInventory().getItemInMainHand().getItemMeta()).getPersistentDataContainer().get(key, PersistentDataType.STRING);
-         PROJECTILEWEAPONLIST.get(WEAPON_NAME);
+        assert event.getBow() != null;
+        Player player = (Player)event.getEntity();
+        String WEAPON_NAME = Objects.requireNonNull(event.getBow().getItemMeta()).getPersistentDataContainer().get(key, PersistentDataType.STRING);
+        PROJECTILEWEAPONLIST.get(WEAPON_NAME);
+        PROJECTILEWEAPONLIST.forEach((N, M) ->{
+            if(Objects.equals(WEAPON_NAME, N)){
+                if(mm.getMana(player.getUniqueId()) < M.getMANACost())
+                {
+                    player.getWorld().spawnParticle(
+                            Particle.ASH,
+                            player.getLocation().add(0, 2, 0),
+                            50
+                    );
+                    player.getWorld().spawnParticle(
+                            Particle.ASH,
+                            player.getLocation().add(1, 2, 0),
+                            50
+                    );
+                }
+                else
+                {
+                    mm.setMana(player.getUniqueId(), M.getMANACost());
+                    M.onExecution((Arrow) event.getProjectile());
+                }
+            }
+        });
     }
 
     public void setManaManager(ManaManager manager)
@@ -67,6 +95,7 @@ public class WeaponManager {
     {
         key = new NamespacedKey(plugin, "armigermc");
         MELEEWEAPONLIST = Map.of("mortalspear", new MortalSpear(key), "darklance", new DarkLance(key));
+        PROJECTILEWEAPONLIST = Map.of("bowofraven", new BowOfRaven(key, plugin));
     }
 
 }

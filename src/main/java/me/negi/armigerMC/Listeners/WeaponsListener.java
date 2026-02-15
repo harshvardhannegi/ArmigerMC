@@ -29,7 +29,7 @@ public class WeaponsListener implements Listener {
     @EventHandler
     public void onBowEvent(EntityShootBowEvent Event){
         if(Event.getEntity() instanceof Player && ((Player) Event.getEntity()).getPlayer() !=null) {
-
+            wm.executeProjectileWeapon(Event);
         }
     }
 

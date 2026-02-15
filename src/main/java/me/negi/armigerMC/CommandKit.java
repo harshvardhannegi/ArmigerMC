@@ -1,5 +1,6 @@
 package me.negi.armigerMC;
 
+import me.negi.armigerMC.Weapons.Weapons.BowOfRaven;
 import me.negi.armigerMC.Weapons.Weapons.MortalSpear;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -17,6 +18,8 @@ public class CommandKit implements CommandExecutor {
     public boolean onCommand(@NonNull CommandSender commandSender, @NonNull Command command, @NonNull String s, @NonNull String[] strings) {
         Player player = (Player) commandSender;
         MortalSpear spear = new MortalSpear(new NamespacedKey(plugin, "armigermc"));
+        BowOfRaven raven = new BowOfRaven(new NamespacedKey(plugin, "armigermc"), plugin);
+        player.getInventory().addItem(raven.getWeaponItem());
         player.getInventory().addItem(spear.getWeaponItem());
         return true;
     }
