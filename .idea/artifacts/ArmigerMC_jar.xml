@@ -1,6 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="ArmigerMC:jar">
-    <output-path>$USER_HOME$/.cache/JetBrains/IdeaIC2025.3/com.nickawrist.MinecraftDevServer/ArmigerMC/plugins/</output-path>
-    <root id="archive" name="ArmigerMC.jar" />
-  </artifact>
-</component>
