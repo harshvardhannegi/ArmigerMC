@@ -9,23 +9,21 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.List;
 
 public class ManaBottle {
-    private static ItemStack STACK;
-
-    static {
-        STACK = new ItemStack(Material.EXPERIENCE_BOTTLE);
-    }
-
-
-    public static ItemStack getManaBottle10(){
+    private static ItemStack getSTACK(int manaAmount){
         ItemStack item = new ItemStack(Material.EXPERIENCE_BOTTLE);
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
         meta.setDisplayName("Mana Bottle");
-        meta.setLore(List.of("A bottle of Mana","Provides 10 Mana"));
+        meta.setLore(List.of("A bottle of Mana",String.format("Consumes %d Mana", manaAmount)));
         meta.setEnchantmentGlintOverride(true);
-        meta.getPersistentDataContainer().set(DataKey.getKey(), PersistentDataType.STRING, "armigermc:10");
+        meta.getPersistentDataContainer().set(DataKey.getKey(), PersistentDataType.STRING, "armigermc" + manaAmount);
         item.setItemMeta(meta);
         return item;
+    }
+
+
+    public static ItemStack getManaBottle10(){
+        return getSTACK(10);
     }
 
 }
