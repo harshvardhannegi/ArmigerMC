@@ -36,6 +36,7 @@ public final class ArmigerMC extends JavaPlugin {
         WM.setupNameSpaceKey(this);
         Objects.requireNonNull(this.getCommand("kit")).setExecutor(new CommandKit(this));
         getServer().getPluginManager().registerEvents(new WeaponsListener(WM), this);
+        Logger.getLogger(this.getName()).log(Level.INFO, "Started SNAP-1v");
 
     }
 
