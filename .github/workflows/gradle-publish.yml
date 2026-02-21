@@ -1,6 +1,9 @@
-name: Build Plugin
+name: Build & Release
 
-on: push
+on:
+  push:
+    tags:
+      - "v*"
 
 jobs:
   build:
@@ -16,12 +19,13 @@ jobs:
           distribution: temurin
           java-version: 17
           cache: gradle
-          
-      - name: Build with Gradle
+
+      - name: Build
         run: ./gradlew build
 
-      - name: Upload JAR Artifact
-        uses: actions/upload-artifact@v4
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: plugin-jar
-          path: build/libs/*.jar
+          files: build/libs/*.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
