@@ -15,8 +15,16 @@ public final class ArmigerMC extends JavaPlugin {
 
     WeaponManager WM = new WeaponManager();
     ManaManager MM = new ManaManager();
+
+    private static ArmigerMC instance;
+
+    public static ArmigerMC getInstance() {
+        return instance;
+    }
+
     @Override
     public void onEnable() {
+        instance = this;
         try {
             MM.loadData(this);
             Logger.getLogger(this.getName()).log(Level.INFO, "Successfully loaded Mana to Cache!");
