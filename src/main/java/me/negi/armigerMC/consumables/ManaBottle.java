@@ -13,7 +13,6 @@ public class ManaBottle {
 
     static {
         STACK = new ItemStack(Material.EXPERIENCE_BOTTLE);
-        STACK.setItemMeta();
     }
 
 
@@ -25,7 +24,8 @@ public class ManaBottle {
         meta.setLore(List.of("A bottle of Mana","Provides 10 Mana"));
         meta.setEnchantmentGlintOverride(true);
         meta.getPersistentDataContainer().set(DataKey.getKey(), PersistentDataType.STRING, "armigermc:10");
-        meta
+        item.setItemMeta(meta);
+        return item;
     }
 
 }
